@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Compass, Code2, Globe, Share2 } from "lucide-react";
+import { Code2, Globe, Share2 } from "lucide-react";
 import { SITE_TAGLINE } from "@/lib/seo-routes";
 
 const footerLinks = {
@@ -35,7 +35,7 @@ export function Footer() {
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-2">
             <Link to="/" className="flex items-center gap-2.5">
-              <Compass className="h-6 w-6 text-primary" />
+              <img src="/SaaSPilotLogo.png" alt="SaaSPilot Logo" className="h-6 w-6 object-contain" />
               <span className="font-heading text-lg font-bold">
                 SaaS<span className="text-primary">Pilot</span>
               </span>

@@ -24,7 +24,7 @@ export function buildHomeJsonLd(): JsonLdGraph {
         url: SITE_DOMAIN,
         logo: {
           "@type": "ImageObject",
-          url: `${SITE_DOMAIN}/favicon.svg`,
+          url: `${SITE_DOMAIN}/SaaSPilotLogo.png`,
         },
         sameAs: [
           "https://twitter.com/saaspilot",

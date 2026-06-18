@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Compass, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -27,7 +27,7 @@ export function Header() {
     <header className="sticky top-0 z-50 h-20 border-b border-border/50 bg-background/90 backdrop-blur-md">
       <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-6">
         <Link to="/" className="flex items-center gap-2.5">
-          <Compass className="h-7 w-7 text-primary" />
+          <img src="/SaaSPilotLogo.png" alt="SaaSPilot Logo" className="h-7 w-7 object-contain" />
           <span className="font-heading text-xl font-bold tracking-tight">
             SaaS<span className="text-primary">Pilot</span>
           </span>
