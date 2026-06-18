@@ -8,6 +8,7 @@
     "build:client": "vite build --outDir dist/client",
     "build:server": "vite build --ssr src/entry-server.tsx --outDir dist/server",
     "build": "tsc -b && npm run build:client && npm run build:server",
+    "build:prerender": "npm run build && tsx src/server/prerender.ts",
     "start": "NODE_ENV=production tsx src/server/entry.ts",
     "lint": "eslint .",
     "preview": "npm run build && npm run start"
