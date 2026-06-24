@@ -1,9 +1,9 @@
 export const SITE_NAME = "SaaSPilot";
 export const SITE_DOMAIN = "https://saaspilot.online";
 export const SITE_TAGLINE =
-  "The go-to knowledge hub for SaaS founders, developers, and operators.";
+  "A structured SaaS knowledge hub for founders, developers, and operators.";
 export const SITE_DESCRIPTION =
-  "Expert guides, frameworks, and resources on SaaS development, marketing, distribution, sales, and MVP building. Your compass for building and scaling software products.";
+  "Build, validate, launch, market, and scale SaaS products through structured learning paths, practical guides, templates, checklists, and frameworks.";
 
 export interface SeoRoute {
   path: string;
@@ -21,9 +21,9 @@ export const SEO_ROUTES: SeoRoute[] = [
   },
   {
     path: "/resources",
-    title: "Resources — SaaSPilot",
+    title: "SaaS Content Library — SaaSPilot",
     description:
-      "Browse templates, frameworks, and checklists for SaaS development, marketing, distribution, sales, and MVP validation.",
+      "Browse SaaS guides, templates, frameworks, checklists, courses, and resources by lifecycle phase, difficulty, and estimated time.",
     ogType: "website",
   },
 ];

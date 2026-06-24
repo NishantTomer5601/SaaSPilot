@@ -6,10 +6,10 @@ import { SectionHeader } from "@/components/shared/SectionHeader";
 import { AnimatedSection, FadeUpItem } from "@/components/shared/AnimatedSection";
 
 const benefits = [
-  "Weekly SaaS insights delivered to your inbox",
-  "Exclusive templates and frameworks",
-  "Early access to new guides and resources",
-  "Curated tools and stack recommendations",
+  "One practical SaaS lesson at a time",
+  "New templates, frameworks, and checklists",
+  "Guidance matched to the SaaS lifecycle",
+  "Curated tools and implementation resources",
 ];
 
 export function NewsletterCTA() {
@@ -32,9 +32,9 @@ export function NewsletterCTA() {
           <div className="grid gap-10 p-8 sm:p-12 lg:grid-cols-2 lg:gap-16">
             <div>
               <SectionHeader
-                number="03"
-                title="Stay ahead of the curve"
-                subtitle="Join 5,000+ SaaS founders and operators who get our weekly newsletter."
+                number="04"
+                title="Keep moving forward"
+                subtitle="Get focused lessons and new resources for the stage you are working through."
               />
               <ul className="space-y-3">
                 {benefits.map((benefit) => (

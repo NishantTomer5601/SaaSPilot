@@ -52,6 +52,7 @@
 
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
   }
 
   body {
@@ -86,7 +87,7 @@
 
   .hero-glow {
     background: radial-gradient(
-      ellipse 60% 50% at 50% 40%,
+      ellipse 60% 55% at 45% 35%,
       hsl(var(--primary) / 0.15),
       transparent 70%
     );

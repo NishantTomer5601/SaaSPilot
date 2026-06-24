@@ -1,90 +1,57 @@
 import { Link } from "react-router-dom";
-import { Code2, Globe, Share2 } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { lifecyclePhases } from "@/data/lifecycle";
 import { SITE_TAGLINE } from "@/lib/seo-routes";
-
-const footerLinks = {
-  Build: [
-    { label: "SaaS Development", href: "/resources?category=development" },
-    { label: "MVP & Validation", href: "/resources?category=mvp" },
-    { label: "Architecture Guides", href: "/resources?category=development" },
-  ],
-  Grow: [
-    { label: "Marketing", href: "/resources?category=marketing" },
-    { label: "Distribution", href: "/resources?category=distribution" },
-    { label: "Sales & Revenue", href: "/resources?category=sales" },
-  ],
-  Operate: [
-    { label: "Operations", href: "/resources?category=operations" },
-    { label: "All Resources", href: "/resources" },
-    { label: "Newsletter", href: "/#newsletter" },
-  ],
-};
-
-const socialLinks = [
-  { icon: Share2, href: "https://twitter.com/saaspilot", label: "Twitter" },
-  { icon: Globe, href: "https://linkedin.com/company/saaspilot", label: "LinkedIn" },
-  { icon: Code2, href: "https://github.com/saaspilot", label: "GitHub" },
-];
 
 export function Footer() {
   return (
     <footer className="border-t border-border bg-background">
-      <div className="h-px bg-gradient-to-r from-primary/60 via-primary to-primary/60" />
-
-      <div className="mx-auto max-w-7xl px-6 py-16">
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-5">
-          <div className="lg:col-span-2">
+      <div className="h-px bg-gradient-to-r from-transparent via-primary to-transparent" />
+      <div className="mx-auto max-w-7xl px-6 py-14">
+        <div className="grid gap-12 lg:grid-cols-[1.4fr_2fr]">
+          <div>
             <Link to="/" className="flex items-center gap-2.5">
-              <img src="/SaaSPilotLogo.png" alt="SaaSPilot Logo" className="h-6 w-6 object-contain" />
-              <span className="font-heading text-lg font-bold">
+              <img src="/SaaSPilotLogo.png" alt="" className="h-7 w-7 object-contain" />
+              <span className="font-heading text-xl font-bold">
                 SaaS<span className="text-primary">Pilot</span>
               </span>
             </Link>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">
-              {SITE_TAGLINE}
+              {SITE_TAGLINE} A structured journey from first problem to sustainable growth.
             </p>
-            <div className="mt-6 flex gap-3">
-              {socialLinks.map(({ icon: Icon, href, label }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={label}
-                  className="flex h-9 w-9 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors hover:border-primary hover:text-primary"
-                >
-                  <Icon className="h-4 w-4" />
-                </a>
+            <Link
+              to="/resources"
+              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-primary"
+            >
+              Explore all content <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+              The SaaS lifecycle
+            </p>
+            <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {lifecyclePhases.map((phase) => (
+                <Link key={phase.id} to={`/${phase.id}`} className="group">
+                  <span className="text-xs font-bold text-primary">{phase.number}</span>
+                  <p className="mt-1 font-heading font-semibold transition-colors group-hover:text-primary">
+                    {phase.title}
+                  </p>
+                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{phase.eyebrow}</p>
+                </Link>
               ))}
             </div>
           </div>
-
-          {Object.entries(footerLinks).map(([title, links]) => (
-            <div key={title}>
-              <h4 className="font-heading text-sm font-semibold text-foreground">{title}</h4>
-              <ul className="mt-4 space-y-3">
-                {links.map((link) => (
-                  <li key={link.label}>
-                    <Link
-                      to={link.href}
-                      className="text-sm text-muted-foreground transition-colors hover:text-primary"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 sm:flex-row">
-          <p className="text-xs text-muted-foreground">
-            &copy; {new Date().getFullYear()} SaaSPilot. All rights reserved.
-          </p>
-          <p className="text-xs text-muted-foreground">
-            Built for founders who ship.
-          </p>
+        <div className="mt-12 flex flex-col gap-4 border-t border-border pt-7 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+          <p>&copy; {new Date().getFullYear()} SaaSPilot. All rights reserved.</p>
+          <div className="flex flex-wrap gap-5">
+            <a href="#privacy" className="hover:text-primary">Privacy</a>
+            <a href="#terms" className="hover:text-primary">Terms</a>
+            <Link to="/#newsletter" className="hover:text-primary">Newsletter</Link>
+          </div>
         </div>
       </div>
     </footer>

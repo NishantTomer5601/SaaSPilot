@@ -1,26 +1,9 @@
 import { Link } from "react-router-dom";
 import { motion } from "motion/react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Compass, Route } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-
-const trustSignals = [
-  { stat: "500+", label: "Guides & Articles" },
-  { stat: "10K+", label: "Founders Learning" },
-  { stat: "60+", label: "Case Studies" },
-  { stat: "Free", label: "Always" },
-];
-
-const topicTags = [
-  "Idea Validation",
-  "MVP",
-  "Pricing",
-  "Churn Reduction",
-  "PLG",
-  "Fundraising",
-  "Cold Outreach",
-  "System Design",
-];
+import { LifecycleProgress } from "@/components/shared/LifecycleProgress";
 
 export function HeroSection() {
   return (
@@ -28,95 +11,58 @@ export function HeroSection() {
       <div className="hero-grid absolute inset-0" />
       <div className="hero-glow absolute inset-0" />
 
-      <div className="relative mx-auto max-w-7xl px-6 pb-24 pt-20 sm:pb-32 sm:pt-28">
+      <div className="relative mx-auto max-w-7xl px-6 pb-20 pt-16 sm:pb-24 sm:pt-24">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="max-w-4xl text-left"
+          className="max-w-5xl"
         >
-          <Badge
-            variant="default"
-            className="mb-6 px-3.5 py-1.5 font-medium border border-primary/20 bg-primary/5 text-xs text-primary transition-all flex items-center gap-2 w-fit"
-          >
-            <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-            The SaaS founder's knowledge hub
+          <Badge className="mb-6 w-fit gap-2 border-primary/20 bg-primary/5 px-3.5 py-1.5">
+            <Compass className="h-3.5 w-3.5" />
+            Your SaaS journey, mapped
           </Badge>
 
-          <h1 className="font-heading text-5xl font-extrabold leading-[1.1] tracking-tight text-white sm:text-7xl lg:text-8xl">
-            Build. <span className="text-primary">Launch.</span> Scale.
+          <h1 className="max-w-4xl font-heading text-5xl font-extrabold leading-[1.05] tracking-tight text-white sm:text-7xl lg:text-[5.5rem]">
+            Build your SaaS.
+            <span className="block text-primary">Step by step.</span>
           </h1>
 
-          <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg lg:text-xl">
-            Practical guides, real case studies, and battle-tested frameworks for SaaS founders at
-            every stage — from your first idea to your first million in ARR.
+          <p className="mt-7 max-w-2xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
+            Follow a structured path from finding the right problem to acquiring and retaining
+            customers. Practical guidance for every decision along the way.
           </p>
 
           <div className="mt-10 flex flex-wrap gap-4">
-            <Link to="/resources">
-              <Button size="lg" className="glow-pulse px-6 py-2.5 flex items-center gap-2">
-                Explore Guides
+            <Link to="/discover">
+              <Button size="lg" className="glow-pulse px-6">
+                Start the journey
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
-            <Button
-              variant="outline"
-              size="lg"
-              className="border border-border bg-transparent hover:border-primary/50 hover:bg-card px-6"
-              onClick={() =>
-                document.getElementById("featured")?.scrollIntoView({ behavior: "smooth" })
-              }
-            >
-              Browse Case Studies
-            </Button>
+            <a href="#start-where-you-are">
+              <Button variant="ghost" size="lg" className="px-6">
+                <Route className="h-4 w-4" />
+                Find your current stage
+              </Button>
+            </a>
           </div>
         </motion.div>
 
-        {/* Divider line */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.25 }}
-          className="my-12 h-px w-full bg-border/40"
-        />
-
-        {/* Stats Row */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
-          className="flex flex-wrap gap-x-16 gap-y-6 text-left"
+          className="mt-16 rounded-xl border border-border/80 bg-background/60 p-4 backdrop-blur-sm sm:p-5"
         >
-          {trustSignals.map(({ stat, label }) => (
-            <div key={label} className="min-w-[120px]">
-              <div className="font-heading text-3xl font-extrabold text-white sm:text-4xl">
-                {stat}
-              </div>
-              <div className="mt-1.5 text-sm text-muted-foreground">{label}</div>
-            </div>
-          ))}
-        </motion.div>
-
-        {/* Topic Tags Row */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 }}
-          className="mt-12 flex flex-wrap gap-2 text-left"
-        >
-          {topicTags.map((tag) => (
-            <Badge
-              key={tag}
-              variant="outline"
-              className="text-xs px-3.5 py-1.5 border-border bg-card/20 text-muted-foreground hover:text-foreground hover:border-primary/30 transition-all cursor-pointer"
-            >
-              {tag}
-            </Badge>
-          ))}
+          <p className="mb-3 px-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            The SaaS lifecycle
+          </p>
+          <LifecycleProgress />
         </motion.div>
       </div>
 
-      <div className="section-divider mx-auto max-w-7xl px-6" />
+      <div className="section-divider mx-auto max-w-7xl" />
     </section>
   );
 }

@@ -1,6 +1,7 @@
 import { SeoHead } from "@/components/SeoHead";
 import { HeroSection } from "@/components/home/HeroSection";
 import { ContentCategories } from "@/components/home/ContentCategories";
+import { StartWhereYouAre } from "@/components/home/StartWhereYouAre";
 import { FeaturedContent } from "@/components/home/FeaturedContent";
 import { NewsletterCTA } from "@/components/home/NewsletterCTA";
 import { getSeoRoute } from "@/lib/seo-routes";
@@ -19,6 +20,7 @@ export function HomePage() {
       />
       <HeroSection />
       <ContentCategories />
+      <StartWhereYouAre />
       <FeaturedContent />
       <NewsletterCTA />
     </>
