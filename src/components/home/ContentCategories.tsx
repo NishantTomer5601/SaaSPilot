@@ -2,10 +2,12 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { lifecyclePhases } from "@/data/lifecycle";
 import { contentForPhase } from "@/data/content";
+import { useContent } from "@/lib/content-store";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { AnimatedSection, FadeUpItem } from "@/components/shared/AnimatedSection";
 
 export function ContentCategories() {
+  const { items } = useContent();
   return (
     <AnimatedSection id="lifecycle" className="mx-auto max-w-7xl px-6 py-24">
       <FadeUpItem>
@@ -19,7 +21,7 @@ export function ContentCategories() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {lifecyclePhases.map((phase) => {
           const Icon = phase.icon;
-          const contentCount = contentForPhase(phase.id).length;
+          const contentCount = contentForPhase(phase.id, items).length;
           return (
             <FadeUpItem key={phase.id}>
               <Link

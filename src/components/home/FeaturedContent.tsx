@@ -1,13 +1,14 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import { contentItems } from "@/data/content";
 import { ContentCard } from "@/components/content/ContentCard";
 import { Button } from "@/components/ui/button";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { AnimatedSection, FadeUpItem } from "@/components/shared/AnimatedSection";
+import { useContent } from "@/lib/content-store";
 
 export function FeaturedContent() {
-  const featured = contentItems.filter((item) => item.featured).slice(0, 6);
+  const { items } = useContent();
+  const featured = items.filter((item) => item.featured).slice(0, 6);
 
   return (
     <AnimatedSection id="featured" className="mx-auto max-w-7xl px-6 py-24">

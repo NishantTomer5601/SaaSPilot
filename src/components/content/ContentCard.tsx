@@ -1,5 +1,4 @@
 import { ArrowUpRight, Clock3, Gauge } from "lucide-react";
-import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import type { ContentItem } from "@/data/content";
 import { phaseById } from "@/data/lifecycle";
@@ -23,8 +22,10 @@ export function ContentCard({
   const phase = phaseById[item.primaryPhase];
 
   return (
-    <Link
-      to={`/resources?phase=${item.primaryPhase}&content=${item.slug}`}
+    <a
+      href={`/r/${item.slug}`}
+      target="_blank"
+      rel="noopener noreferrer"
       className={cn(
         "corner-accent group flex h-full flex-col rounded-xl border border-border bg-card/80 transition-all hover:-translate-y-0.5 hover:border-primary/50 hover:bg-card",
         compact ? "p-5" : "p-6",
@@ -35,6 +36,9 @@ export function ContentCard({
         <span className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
           {phase.title}
         </span>
+        {item.sourceDomain && (
+          <span className="ml-auto text-xs text-muted-foreground/80">{item.sourceDomain}</span>
+        )}
       </div>
 
       <h3
@@ -62,6 +66,6 @@ export function ContentCard({
         </div>
         <ArrowUpRight className="h-4 w-4 text-primary transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
       </div>
-    </Link>
+    </a>
   );
 }

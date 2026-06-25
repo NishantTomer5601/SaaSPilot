@@ -3,11 +3,13 @@ import { Layout } from "@/components/layout/Layout";
 import { HomePage } from "@/pages/HomePage";
 import { ResourcesPage } from "@/pages/ResourcesPage";
 import { PhasePage } from "@/pages/PhasePage";
+import { AdminPage } from "@/pages/AdminPage";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
+import { ContentProvider } from "@/lib/content-store";
 
 export function App() {
   return (
-    <>
+    <ContentProvider>
       <ScrollToTop />
       <Routes>
         <Route element={<Layout />}>
@@ -20,7 +22,8 @@ export function App() {
           <Route path="launch" element={<PhasePage phaseId="launch" />} />
           <Route path="marketing-sales" element={<PhasePage phaseId="marketing-sales" />} />
         </Route>
+        <Route path="admin" element={<AdminPage />} />
       </Routes>
-    </>
+    </ContentProvider>
   );
 }

@@ -4,6 +4,8 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import express from "express";
 import compression from "compression";
 import sirv from "sirv";
+import { apiRouter } from "./api";
+import { redirectRouter } from "./redirect";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const isProduction = process.env.NODE_ENV === "production";
@@ -16,6 +18,12 @@ const templateHtml = isProduction
 
 const app = express();
 app.use(compression());
+app.set("trust proxy", true);
+app.use(express.json());
+
+// API + outbound redirects must be registered BEFORE the SSR catch-all.
+app.use("/api", apiRouter);
+app.use("/r", redirectRouter);
 
 let vite: Awaited<ReturnType<typeof import("vite").createServer>> | undefined;
 

@@ -11,13 +11,24 @@
     "build:prerender": "npm run build && tsx src/server/prerender.ts",
     "start": "NODE_ENV=production tsx src/server/entry.ts",
     "lint": "eslint .",
-    "preview": "npm run build && npm run start"
+    "preview": "npm run build && npm run start",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:push": "prisma db push",
+    "db:seed": "tsx prisma/seed.ts",
+    "db:studio": "prisma studio",
+    "db:reset": "prisma migrate reset"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@dr.pogodin/react-helmet": "^3.2.2",
+    "@prisma/client": "^6.19.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "compression": "^1.8.1",
+    "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "lucide-react": "^1.21.0",
     "motion": "^12.40.0",
@@ -25,7 +36,8 @@
     "react-dom": "^19.2.6",
     "react-router-dom": "^7.18.0",
     "sirv": "^3.0.2",
-    "tailwind-merge": "^3.6.0"
+    "tailwind-merge": "^3.6.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -40,6 +52,7 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.6.0",
+    "prisma": "^6.19.3",
     "tailwindcss": "^4.3.1",
     "tsx": "^4.22.4",
     "typescript": "~6.0.2",

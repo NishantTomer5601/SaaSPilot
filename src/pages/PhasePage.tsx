@@ -13,6 +13,7 @@ import { LifecycleProgress } from "@/components/shared/LifecycleProgress";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { contentForPhase, getSubPhaseIds } from "@/data/content";
+import { useContent } from "@/lib/content-store";
 import {
   getPhaseIndex,
   lifecyclePhases,
@@ -22,9 +23,10 @@ import {
 
 export function PhasePage({ phaseId }: { phaseId: PhaseId }) {
   const phase = phaseById[phaseId];
+  const { items } = useContent();
   if (!phase) return <Navigate to="/" replace />;
 
-  const content = contentForPhase(phaseId);
+  const content = contentForPhase(phaseId, items);
   const featured = content.filter((item) => item.featured);
   const recommended = (featured.length ? featured : content).slice(0, 3);
   const index = getPhaseIndex(phaseId);

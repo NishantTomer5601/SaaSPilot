@@ -24,6 +24,10 @@ export interface ContentItem {
   slug: string;
   title: string;
   description: string;
+  /** External destination this link points to (added by the API). */
+  url?: string;
+  /** Host of the external URL, e.g. "stripe.com" (added by the API). */
+  sourceDomain?: string | null;
   type: ContentType;
   primaryPhase: PhaseId;
   classifications: ContentClassification[];
@@ -301,8 +305,8 @@ export const contentTypes: ContentType[] = [
 
 export const difficulties: Difficulty[] = ["Beginner", "Intermediate", "Advanced"];
 
-export function contentForPhase(phase: PhaseId) {
-  return contentItems.filter((item) =>
+export function contentForPhase(phase: PhaseId, items: ContentItem[] = contentItems) {
+  return items.filter((item) =>
     item.classifications.some((classification) => classification.phase === phase),
   );
 }

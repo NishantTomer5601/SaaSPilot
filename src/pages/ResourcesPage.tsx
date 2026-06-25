@@ -7,7 +7,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
-  contentItems,
   contentTypes,
   difficulties,
   type ContentType,
@@ -15,12 +14,14 @@ import {
 } from "@/data/content";
 import { lifecyclePhases, phaseById, type PhaseId } from "@/data/lifecycle";
 import { getSeoRoute } from "@/lib/seo-routes";
+import { useContent } from "@/lib/content-store";
 import { cn } from "@/lib/utils";
 
 type ReadTime = "quick" | "medium" | "deep";
 
 export function ResourcesPage() {
   const seo = getSeoRoute("/resources");
+  const { items: contentItems } = useContent();
   const [searchParams, setSearchParams] = useSearchParams();
   const [search, setSearch] = useState("");
 
@@ -81,7 +82,7 @@ export function ResourcesPage() {
         matchesSearch
       );
     });
-  }, [activeDifficulty, activePhase, activeSubPhase, activeTime, activeType, search]);
+  }, [contentItems, activeDifficulty, activePhase, activeSubPhase, activeTime, activeType, search]);
 
   const hasFilters =
     activePhase !== "all" ||
