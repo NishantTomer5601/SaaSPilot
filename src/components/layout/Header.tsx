@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Library, Menu, X } from "lucide-react";
 import { lifecyclePhases } from "@/data/lifecycle";
+import { SiteSearch } from "@/components/search/SiteSearch";
 import { cn } from "@/lib/utils";
 
 export function Header() {
@@ -38,27 +39,31 @@ export function Header() {
           })}
         </nav>
 
-        <Link
-          to="/resources"
-          className={cn(
-            "hidden shrink-0 items-center gap-2 rounded-md border px-3.5 py-2 text-sm font-medium transition-colors sm:flex",
-            location.pathname === "/resources"
-              ? "border-primary bg-primary/10 text-primary"
-              : "border-border text-muted-foreground hover:border-primary/50 hover:text-foreground",
-          )}
-        >
-          <Library className="h-4 w-4" />
-          All content
-        </Link>
+        <div className="flex items-center gap-2">
+          <SiteSearch />
 
-        <button
-          type="button"
-          className="rounded-md p-2 text-muted-foreground hover:bg-card hover:text-foreground lg:hidden"
-          onClick={() => setMobileOpen((open) => !open)}
-          aria-label={mobileOpen ? "Close menu" : "Open menu"}
-        >
-          {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
+          <Link
+            to="/resources"
+            className={cn(
+              "hidden shrink-0 items-center gap-2 rounded-md border px-3.5 py-2 text-sm font-medium transition-colors sm:flex",
+              location.pathname === "/resources"
+                ? "border-primary bg-primary/10 text-primary"
+                : "border-border text-muted-foreground hover:border-primary/50 hover:text-foreground",
+            )}
+          >
+            <Library className="h-4 w-4" />
+            All content
+          </Link>
+
+          <button
+            type="button"
+            className="rounded-md p-2 text-muted-foreground hover:bg-card hover:text-foreground lg:hidden"
+            onClick={() => setMobileOpen((open) => !open)}
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+          >
+            {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
       </div>
 
       <div
