@@ -1,0 +1,27 @@
+# Render Blueprint — provisions the web service + a Postgres database.
+# In Render: New → Blueprint → connect this repo. It reads this file.
+services:
+  - type: web
+    name: saaspilot
+    runtime: node
+    plan: free
+    # Install dev deps too (vite/tsc/prisma are needed to build), then build.
+    buildCommand: npm install --include=dev && npm run build
+    # Apply any new DB migrations on each deploy, before the new version goes live.
+    preDeployCommand: npx prisma migrate deploy
+    startCommand: npm run start
+    healthCheckPath: /
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: saaspilot-db
+          property: connectionString
+      - key: ADMIN_TOKEN
+        generateValue: true # Render generates a strong random token (view it in the dashboard)
+      - key: NODE_VERSION
+        value: "20.18.0"
+      # Do NOT set NODE_ENV here — `npm run start` already sets it to production.
+
+databases:
+  - name: saaspilot-db
+    plan: free
