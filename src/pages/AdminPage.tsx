@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, ExternalLink, Loader2, Plus, Trash2 } from "lucide-react";
+import { ArrowLeft, ExternalLink, Loader2, Pencil, Plus, Trash2, X } from "lucide-react";
 import { SeoHead } from "@/components/SeoHead";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -28,10 +28,15 @@ interface AdminResource {
   id: string;
   slug: string;
   title: string;
+  description: string;
   url: string;
   sourceDomain?: string | null;
   type: string;
+  difficulty: string;
+  estimatedMinutes: number;
+  tags: string[];
   primaryPhase: string;
+  classifications: { phase: string; subPhases: string[] }[];
   status: string;
   featured?: boolean;
   clicks?: number;
@@ -58,6 +63,7 @@ export function AdminPage() {
   const [meta, setMeta] = useState<Meta | null>(null);
   const [list, setList] = useState<AdminResource[]>([]);
   const [form, setForm] = useState(emptyForm);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<{ kind: "ok" | "err"; text: string } | null>(null);
 
@@ -112,6 +118,32 @@ export function AdminPage() {
     }));
   }
 
+  // Load an existing link into the form to edit it.
+  function startEdit(r: AdminResource) {
+    setEditingId(r.id);
+    setForm({
+      title: r.title,
+      description: r.description,
+      url: r.url,
+      type: r.type,
+      difficulty: r.difficulty,
+      estimatedMinutes: r.estimatedMinutes,
+      featured: r.featured ?? false,
+      status: (r.status as "published" | "draft") ?? "published",
+      tags: r.tags.join(", "),
+      primaryPhaseId: r.primaryPhase,
+      subPhaseIds: r.classifications.flatMap((c) => c.subPhases),
+    });
+    setMessage(null);
+    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function cancelEdit() {
+    setEditingId(null);
+    setForm({ ...emptyForm, primaryPhaseId: meta?.phases[0]?.id || "" });
+    setMessage(null);
+  }
+
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
@@ -125,18 +157,26 @@ export function AdminPage() {
           .map((t) => t.trim())
           .filter(Boolean),
       };
-      const res = await fetch("/api/admin/resources", {
-        method: "POST",
-        headers: { ...authHeader, "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      const editing = editingId !== null;
+      const res = await fetch(
+        editing ? `/api/admin/resources/${editingId}` : "/api/admin/resources",
+        {
+          method: editing ? "PATCH" : "POST",
+          headers: { ...authHeader, "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        },
+      );
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
         throw new Error(
           typeof err.error === "string" ? err.error : "Could not save (check required fields)",
         );
       }
-      setMessage({ kind: "ok", text: "Link added — it's now live on the site." });
+      setMessage({
+        kind: "ok",
+        text: editing ? "Link updated — live on the site." : "Link added — it's now live on the site.",
+      });
+      setEditingId(null);
       setForm({ ...emptyForm, primaryPhaseId: meta?.phases[0]?.id || "" });
       await Promise.all([loadList(), refreshSite()]);
     } catch (e) {
@@ -219,9 +259,27 @@ export function AdminPage() {
         </div>
 
         <div className="grid gap-10 lg:grid-cols-[minmax(0,420px)_1fr]">
-          {/* Add form */}
-          <form onSubmit={submit} className="space-y-4 rounded-xl border border-border bg-card/60 p-6">
-            <h2 className="font-heading text-lg font-semibold">Add a link</h2>
+          {/* Add / edit form */}
+          <form
+            onSubmit={submit}
+            className={`h-fit space-y-4 rounded-xl border bg-card/60 p-6 lg:sticky lg:top-6 ${
+              editingId ? "border-primary/50" : "border-border"
+            }`}
+          >
+            <div className="flex items-center justify-between">
+              <h2 className="font-heading text-lg font-semibold">
+                {editingId ? "Edit link" : "Add a link"}
+              </h2>
+              {editingId && (
+                <button
+                  type="button"
+                  onClick={cancelEdit}
+                  className="flex items-center gap-1 text-xs text-muted-foreground hover:text-primary"
+                >
+                  <X className="h-3.5 w-3.5" /> Cancel
+                </button>
+              )}
+            </div>
 
             <Field label="Title">
               <Input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} required />
@@ -318,8 +376,14 @@ export function AdminPage() {
             </label>
 
             <Button type="submit" className="w-full" disabled={busy}>
-              {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
-              Add link
+              {busy ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : editingId ? (
+                <Pencil className="h-4 w-4" />
+              ) : (
+                <Plus className="h-4 w-4" />
+              )}
+              {editingId ? "Save changes" : "Add link"}
             </Button>
 
             {message && (
@@ -341,7 +405,9 @@ export function AdminPage() {
               {list.map((r) => (
                 <div
                   key={r.id}
-                  className="flex items-center gap-3 rounded-lg border border-border bg-card/50 p-3"
+                  className={`flex items-center gap-3 rounded-lg border bg-card/50 p-3 ${
+                    editingId === r.id ? "border-primary/60" : "border-border"
+                  }`}
                 >
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
@@ -350,6 +416,11 @@ export function AdminPage() {
                       {r.status === "draft" && (
                         <Badge className="shrink-0 border-amber-400/30 bg-amber-400/10 text-amber-300">
                           Draft
+                        </Badge>
+                      )}
+                      {r.sourceDomain === "google.com" && (
+                        <Badge className="shrink-0 border-rose-400/30 bg-rose-400/10 text-rose-300">
+                          Placeholder URL
                         </Badge>
                       )}
                     </div>
@@ -369,6 +440,13 @@ export function AdminPage() {
                   >
                     <ExternalLink className="h-4 w-4" />
                   </a>
+                  <button
+                    onClick={() => startEdit(r)}
+                    className="text-muted-foreground hover:text-primary"
+                    title="Edit"
+                  >
+                    <Pencil className="h-4 w-4" />
+                  </button>
                   <button
                     onClick={() => remove(r.id)}
                     className="text-muted-foreground hover:text-rose-400"
