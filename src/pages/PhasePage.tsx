@@ -2,17 +2,17 @@ import { Link, Navigate } from "react-router-dom";
 import {
   ArrowLeft,
   ArrowRight,
-  Check,
   ChevronRight,
   ListChecks,
   Target,
 } from "lucide-react";
 import { SeoHead } from "@/components/SeoHead";
 import { ContentCard } from "@/components/content/ContentCard";
+import { LearningPath } from "@/components/phase/LearningPath";
 import { LifecycleProgress } from "@/components/shared/LifecycleProgress";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { contentForPhase, getSubPhaseIds } from "@/data/content";
+import { contentForPhase } from "@/data/content";
 import { useContent } from "@/lib/content-store";
 import {
   getPhaseIndex,
@@ -97,60 +97,12 @@ export function PhasePage({ phaseId }: { phaseId: PhaseId }) {
               Complete this phase in order
             </h2>
             <p className="mt-3 max-w-2xl text-muted-foreground">
-              Each step builds evidence or capability for the next. Skip a step only when you
-              already have a clear, documented answer.
+              Each step builds evidence or capability for the next. Click any step to see the
+              curated links for it.
             </p>
           </div>
 
-          <div className="space-y-3">
-            {phase.subPhases.map((subPhase, subIndex) => {
-              const matchingContent = content.filter((item) =>
-                getSubPhaseIds(item, phaseId).includes(subPhase.id),
-              );
-              return (
-                <article
-                  key={subPhase.id}
-                  id={subPhase.id}
-                  className="group rounded-xl border border-border bg-card/60 p-5 transition-colors hover:border-primary/40 sm:p-6"
-                >
-                  <div className="flex gap-4">
-                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-primary/30 bg-primary/10 text-sm font-bold text-primary">
-                      {String(subIndex + 1).padStart(2, "0")}
-                    </span>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-                        <div>
-                          <h3 className="font-heading text-xl font-semibold">{subPhase.title}</h3>
-                          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                            {subPhase.description}
-                          </p>
-                        </div>
-                        {matchingContent.length > 0 && (
-                          <Badge variant="secondary" className="w-fit shrink-0">
-                            {matchingContent.length} {matchingContent.length === 1 ? "resource" : "resources"}
-                          </Badge>
-                        )}
-                      </div>
-
-                      {subPhase.topics && (
-                        <div className="mt-4 flex flex-wrap gap-2">
-                          {subPhase.topics.map((topic) => (
-                            <span
-                              key={topic}
-                              className="inline-flex items-center gap-1.5 rounded-full bg-background px-3 py-1 text-xs text-muted-foreground"
-                            >
-                              <Check className="h-3 w-3 text-primary" />
-                              {topic}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
+          <LearningPath phase={phase} phaseId={phaseId} content={content} />
         </div>
 
         <aside className="lg:sticky lg:top-28 lg:self-start">
